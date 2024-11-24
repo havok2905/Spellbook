@@ -1,0 +1,27 @@
+.modalBackdrop {
+  background-color: rgba(0, 0, 0, 0.85);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.modal {
+  background-color: var(--black-2);
+  border-radius: 4px;
+  box-shadow: 0 0 10px 0 var(--black);
+  box-sizing: border-box;
+  color: var(--white);
+  left: 0; 
+  margin: 0 auto;
+  max-height: 500px;
+  overflow-y: scroll;
+  padding: 20px;
+  position: fixed;
+  right: 0; 
+  top: 100px;
+  width: 700px;
+  z-index: 20;
+}

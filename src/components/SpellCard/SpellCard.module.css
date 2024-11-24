@@ -1,0 +1,377 @@
+.SpellCard {
+  box-sizing: border-box;
+  background-color: var(--black-2);
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 #000000;
+  color: var(--card-text);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  height: 450px;
+  justify-content: space-between;
+  padding: 20px;
+  position: relative;
+  transition: 0.3s;
+  width: 300px;
+}
+
+.SpellCardSystem {
+  bottom: 20px;
+  position: absolute;
+  right: 20px;
+}
+
+.SpellCardActiveAbjuration {
+  box-shadow: 0 0 20px 0 var(--neon-abjuration);
+}
+
+.SpellCardActiveConjuration {
+  box-shadow: 0 0 20px 0 var(--neon-conjuration);
+}
+
+.SpellCardActiveDivination {
+  box-shadow: 0 0 20px 0 var(--neon-divination);
+}
+
+.SpellCardActiveEnchantment {
+  box-shadow: 0 0 20px 0 var(--neon-enchantment);
+}
+
+.SpellCardActiveEvocation {
+  box-shadow: 0 0 20px 0 var(--neon-evocation);
+}
+
+.SpellCardActiveIllusion {
+  box-shadow: 0 0 20px 0 var(--neon-illusion);
+}
+
+.SpellCardActiveNecromancy {
+  box-shadow: 0 0 20px 0 var(--neon-necromancy);
+}
+
+.SpellCardActiveTransmutation {
+  box-shadow: 0 0 20px 0 var(--neon-transmutation);
+}
+
+.SpellCardTitle {
+  color: var(--white);
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.SpellCardSubTitle {
+  font-style: italic;
+}
+
+.SpellCardTitleAbjuration {
+  animation: pulsate-abjuration 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-abjuration),
+    0 0 82px var(--neon-abjuration),
+    0 0 92px var(--neon-abjuration),
+    0 0 102px var(--neon-abjuration),
+    0 0 151px var(--neon-abjuration);
+}
+
+.SpellCardTitleConjuration {
+  animation: pulsate-conjuration 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-conjuration),
+    0 0 82px var(--neon-conjuration),
+    0 0 92px var(--neon-conjuration),
+    0 0 102px var(--neon-conjuration),
+    0 0 151px var(--neon-conjuration);
+}
+
+.SpellCardTitleDivination {
+  animation: pulsate-divination 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-divination),
+    0 0 82px var(--neon-divination),
+    0 0 92px var(--neon-divination),
+    0 0 102px var(--neon-divination),
+    0 0 151px var(--neon-divination);
+}
+
+.SpellCardTitleEnchantment {
+  animation: pulsate-enchantment 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-enchantment),
+    0 0 82px var(--neon-enchantment),
+    0 0 92px var(--neon-enchantment),
+    0 0 102px var(--neon-enchantment),
+    0 0 151px var(--neon-enchantment);
+}
+
+.SpellCardTitleEvocation {
+  animation: pulsate-evocation 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-evocation),
+    0 0 82px var(--neon-evocation),
+    0 0 92px var(--neon-evocation),
+    0 0 102px var(--neon-evocation),
+    0 0 151px var(--neon-evocation);
+}
+
+.SpellCardTitleIllusion {
+  animation: pulsate-illusion 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-illusion),
+    0 0 82px var(--neon-illusion),
+    0 0 92px var(--neon-illusion),
+    0 0 102px var(--neon-illusion),
+    0 0 151px var(--neon-illusion);
+}
+
+.SpellCardTitleNecromancy {
+  animation: pulsate-necromancy 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-necromancy),
+    0 0 82px var(--neon-necromancy),
+    0 0 92px var(--neon-necromancy),
+    0 0 102px var(--neon-necromancy),
+    0 0 151px var(--neon-necromancy);
+}
+
+.SpellCardTitleTransmutation {
+  animation: pulsate-transmutation 1.5s infinite alternate;
+  text-shadow:
+    0 0 7px var(--neon-white),
+    0 0 10px var(--neon-white),
+    0 0 21px var(--neon-white),
+    0 0 42px var(--neon-transmutation),
+    0 0 82px var(--neon-transmutation),
+    0 0 92px var(--neon-transmutation),
+    0 0 102px var(--neon-transmutation),
+    0 0 151px var(--neon-transmutation);
+}
+
+@keyframes pulsate-abjuration {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-abjuration),
+      0 0 80px var(--neon-abjuration),
+      0 0 90px var(--neon-abjuration),
+      0 0 100px var(--neon-abjuration),
+      0 0 150px var(--neon-abjuration);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-abjuration),
+    0 0 45px var(--neon-abjuration),
+    0 0 55px var(--neon-abjuration),
+    0 0 70px var(--neon-abjuration),
+    0 0 80px var(--neon-abjuration);
+  }
+}
+
+@keyframes pulsate-conjuration {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-conjuration),
+      0 0 80px var(--neon-conjuration),
+      0 0 90px var(--neon-conjuration),
+      0 0 100px var(--neon-conjuration),
+      0 0 150px var(--neon-conjuration);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-conjuration),
+    0 0 45px var(--neon-conjuration),
+    0 0 55px var(--neon-conjuration),
+    0 0 70px var(--neon-conjuration),
+    0 0 80px var(--neon-conjuration);
+  }
+}
+
+@keyframes pulsate-divination {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-divination),
+      0 0 80px var(--neon-divination),
+      0 0 90px var(--neon-divination),
+      0 0 100px var(--neon-divination),
+      0 0 150px var(--neon-divination);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-divination),
+    0 0 45px var(--neon-divination),
+    0 0 55px var(--neon-divination),
+    0 0 70px var(--neon-divination),
+    0 0 80px var(--neon-divination);
+  }
+}
+
+@keyframes pulsate-enchantment {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-enchantment),
+      0 0 80px var(--neon-enchantment),
+      0 0 90px var(--neon-enchantment),
+      0 0 100px var(--neon-enchantment),
+      0 0 150px var(--neon-enchantment);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-divination),
+    0 0 45px var(--neon-divination),
+    0 0 55px var(--neon-divination),
+    0 0 70px var(--neon-divination),
+    0 0 80px var(--neon-divination);
+  }
+}
+
+@keyframes pulsate-evocation {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-evocation),
+      0 0 80px var(--neon-evocation),
+      0 0 90px var(--neon-evocation),
+      0 0 100px var(--neon-evocation),
+      0 0 150px var(--neon-evocation);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-evocation),
+    0 0 45px var(--neon-evocation),
+    0 0 55px var(--neon-evocation),
+    0 0 70px var(--neon-evocation),
+    0 0 80px var(--neon-evocation);
+  }
+}
+
+@keyframes pulsate-illusion {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-illusion),
+      0 0 80px var(--neon-illusion),
+      0 0 90px var(--neon-illusion),
+      0 0 100px var(--neon-illusion),
+      0 0 150px var(--neon-illusion);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-illusion),
+    0 0 45px var(--neon-illusion),
+    0 0 55px var(--neon-illusion),
+    0 0 70px var(--neon-illusion),
+    0 0 80px var(--neon-illusion);
+  }
+}
+
+@keyframes pulsate-necromancy {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-necromancy),
+      0 0 80px var(--neon-necromancy),
+      0 0 90px var(--neon-necromancy),
+      0 0 100px var(--neon-necromancy),
+      0 0 150px var(--neon-necromancy);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-necromancy),
+    0 0 45px var(--neon-necromancy),
+    0 0 55px var(--neon-necromancy),
+    0 0 70px var(--neon-necromancy),
+    0 0 80px var(--neon-necromancy);
+  }
+}
+
+@keyframes pulsate-transmutation {
+  100% {
+      text-shadow:
+      0 0 4px var(--neon-white),
+      0 0 11px var(--neon-white),
+      0 0 19px var(--neon-white),
+      0 0 40px var(--neon-transmutation),
+      0 0 80px var(--neon-transmutation),
+      0 0 90px var(--neon-transmutation),
+      0 0 100px var(--neon-transmutation),
+      0 0 150px var(--neon-transmutation);
+  }
+  
+  0% {
+    text-shadow:
+    0 0 2px var(--neon-white),
+    0 0 4px var(--neon-white),
+    0 0 6px var(--neon-white),
+    0 0 10px var(--neon-transmutation),
+    0 0 45px var(--neon-transmutation),
+    0 0 55px var(--neon-transmutation),
+    0 0 70px var(--neon-transmutation),
+    0 0 80px var(--neon-transmutation);
+  }
+}

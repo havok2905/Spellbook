@@ -1,0 +1,12 @@
+.SpellDrawer {
+  background-color: var(--black-1);
+  box-shadow: 0 0 20px 0 var(--black);
+  box-sizing: border-box;
+  color: var(--white);
+  height: 100%;
+  overflow-x: scroll;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+  width: 400px;
+}

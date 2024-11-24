@@ -1,3 +1,142 @@
 :root {
-  
+  --black: #000000;
+  --black-1: #111111;
+  --black-2: #1c1c1c;
+  --card-text: #cccccc;
+  --neon-abjuration: rgba(239, 181, 115, 0.85);
+  --neon-conjuration: rgba(239, 119, 115, 0.85);
+  --neon-divination: rgba(115, 131, 239, 0.85);
+  --neon-enchantment: rgba(210, 239, 115, 0.85);
+  --neon-evocation: rgba(5, 174, 252, 0.85);
+  --neon-illusion: rgba(239, 115, 239, 0.85);
+  --neon-necromancy: rgba(185, 115, 239, 0.85);
+  --neon-transmutation: rgba(115, 239, 146, 0.85);
+  --neon-white: rgba(255, 255, 255, 0.75);
+  --white: #ffffff;
+}
+
+html, body {
+  background-color: var(--black-1);
+  font-family: var(--font-goudy);
+}
+
+h1 {
+  color: var(--white);
+  font-size: 48px;
+  margin: 48px 0;
+  text-transform: capitalize;
+}
+
+h2 {
+  color: var(--white);
+  font-size: 36px;
+  margin: 36px 0;
+  text-transform: capitalize;
+}
+
+h3 {
+  color: var(--white);
+  font-size: 24px;
+  margin: 24px 0;
+  text-transform: capitalize;
+}
+
+h4 {
+  color: var(--white);
+  font-size: 20px;
+  margin: 18px 0;
+  text-transform: capitalize;
+}
+
+h5 {
+  color: var(--white);
+  font-size: 18px;
+  margin: 18px 0;
+  text-transform: uppercase;
+}
+
+p {
+  color: var(--white);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+ol {
+  list-style-type: lower-roman;
+  margin-left: 20px;
+}
+
+li {
+  color: var(--white);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+strong {
+  font-weight: 700;
+}
+
+label {
+  color: var(--white);
+  display: block;
+}
+
+input {
+  background-color: var(--black-2);
+  border: 0;
+  box-shadow: inset 0 0 10px 0 var(--black);
+  color: var(--white);
+  display: block;
+  height: 40px;
+  outline: 0;
+  padding: 0 10px;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid var(--neon-evocation);
+  border-radius: 4px;
+  box-shadow: 0 0 10px 0 var(--neon-evocation);
+  color: var(--neon-evocation);
+  cursor: pointer;
+  height: 40px;
+  margin-right: 20px;
+  padding: 0 20px;
+  transition: 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 20px 0 var(--neon-evocation);
+}
+
+table {
+  color: var(--white);
+  margin: 20px 0;
+  width: 100%;
+}
+
+th {
+  font-weight: 700;
+  text-align: left;
+}
+
+.container {
+  display: flex;
+  margin: 0 auto;
+  position: relative;
+  width: 1260px;
+}
+
+.spell-card-list {
+  column-gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 auto 20px auto;
+  row-gap: 20px;
+  width: 940px;
 }
