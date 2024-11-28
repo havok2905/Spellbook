@@ -1,22 +1,29 @@
 'use client';
 
 import {
+  getSpells,
   getSpellbook,
-  getSpellbookSpells
+  getSpellbookSpells,
+  addSpellbookSpell,
+  removeSpellbookSpell
 } from '../../../utils/api';
+import { Modal} from '@/components/Modal';
 import { Spell } from '../../../types';
 import { SpellCard } from '../../../components/SpellCard';
 import { SpellDrawer } from '../../../components/SpellDrawer';
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 export default function Spellbook() {
   const { id } = useParams();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [active, setActive] = useState<string>('');
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
   const spellbookId = id as string;
+
+  const queryClient = useQueryClient();
 
   const {
     data: spellbookData,
@@ -28,15 +35,57 @@ export default function Spellbook() {
   });
 
   const {
+    data: spellsData,
+    isError: spellsIsError,
+    isLoading: spellsIsLoading
+  } = useQuery({
+    queryFn: async () => await getSpells(),
+    queryKey: ['spells']
+  });
+
+
+  const {
     data: spellbookSpellsData,
     isError: spellbookSpellsIsError,
-    isLoading: spellbookSpellsIsLoading
+    isLoading: spellbookSpellsIsLoading,
+    refetch: spellboolSpellsRefetch
   } = useQuery({
     queryFn: async () => await getSpellbookSpells(spellbookId),
     queryKey: ['spellbook']
   });
 
+  const {
+    mutate: addSpellbookSpellMutation
+  } = useMutation({
+    mutationFn: async ({ id, spellId }: { id: string, spellId: string }) => {
+      return await addSpellbookSpell({ id, spellId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['spellbookSpells']
+      });
+
+      spellboolSpellsRefetch();
+    },
+  });
+
+  const {
+    mutate: removeSpellbookSpellMutation
+  } = useMutation({
+    mutationFn: async ({ id, spellId }: { id: string, spellId: string }) => {
+      return await removeSpellbookSpell({ id, spellId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['spellbookSpells']
+      });
+
+      spellboolSpellsRefetch();
+    },
+  });
+
   if (
+    spellsIsError ||
     spellbookIsError ||
     spellbookSpellsIsError
   ) {
@@ -48,6 +97,7 @@ export default function Spellbook() {
   }
 
   if (
+    spellsIsLoading ||
     spellbookIsLoading ||
     spellbookSpellsIsLoading
   ) {
@@ -89,74 +139,120 @@ export default function Spellbook() {
   };
 
   return (
-    <div className="container">
-      <div style={{
-        width: '940px'
-      }}>
-        <h1>
-          Spellbook - {spellbookData.name}
-        </h1>
+    <>
+      <div className="container">
         <div style={{
-          marginBottom: '20px'
+          width: '940px'
         }}>
-          <button>
-            Add Spell
-          </button>
-          <button>
-            Create & Add Spell
-          </button>
-        </div>
-        <label>
-          Search
-        </label>
-        <input
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-          type="text"
-          value={searchTerm}
-        />
-        {
-          spellPartition.map((partition, index) => {
-            if (!partition.length) {
-              return null;
-            }
+          <h1>
+            Spellbook - {spellbookData.name}
+          </h1>
+          <div style={{
+            marginBottom: '20px'
+          }}>
+            <button onClick={() => {
+              setIsAddModalOpen(true);
+            }}>
+              Manage Spells
+            </button>
+            <button>
+              Create & Add Spell
+            </button>
+          </div>
+          <label>
+            Search
+          </label>
+          <input
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+            type="text"
+            value={searchTerm}
+          />
+          {
+            spellPartition.map((partition, index) => {
+              if (!partition.length) {
+                return null;
+              }
 
-            return (
-              <div key={index}>
-                <h2>
-                  {getSpellLevelString(index)}
-                </h2>
-                <div className="spell-card-list">
-                  {
-                    partition.map((spell) => {
-                      const onClick = () => {
-                        if (active === spell.name) {
-                          setActive('');
-                        } else {
-                          setActive(spell.name);
-                        }
-                      };
-          
-                      return (
-                        <SpellCard
-                          active={spell.name === active}
-                          key={spell.name}
-                          onClick={onClick}
-                          spell={spell}
-                        />
-                      )
-                    })
-                  }
+              return (
+                <div key={index}>
+                  <h2>
+                    {getSpellLevelString(index)}
+                  </h2>
+                  <div className="spell-card-list">
+                    {
+                      partition.map((spell) => {
+                        const onClick = () => {
+                          if (active === spell.name) {
+                            setActive('');
+                          } else {
+                            setActive(spell.name);
+                          }
+                        };
+            
+                        return (
+                          <SpellCard
+                            active={spell.name === active}
+                            key={spell.name}
+                            onClick={onClick}
+                            spell={spell}
+                          />
+                        )
+                      })
+                    }
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        }
+              );
+            })
+          }
+        </div>
+        <SpellDrawer
+          spell={spellbookSpellsData.find((s: Spell) => s.name === active)}
+        />
       </div>
-      <SpellDrawer
-        spell={spellbookSpellsData.find((s: Spell) => s.name === active)}
-      />
-    </div>
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => {
+          setIsAddModalOpen(false);
+        }}
+        portalElement={document.body}
+      >
+        <p>
+          {
+            spellsData.map((spell: Spell) => {
+              return (
+                <li key={spell.id}>
+                  {spell.name}
+                  {
+                    spellbookSpellsData.find((spellbookSpell: Spell) => {
+                      return spellbookSpell.id === spell.id;
+                    }) ? (
+                      <button onClick={() => {
+                        removeSpellbookSpellMutation({
+                          id: spellbookData.id,
+                          spellId: spell.id
+                        })
+                      }}>
+                        Remove Spell
+                      </button>
+                    ) : (
+                      <button onClick={() => {
+                        addSpellbookSpellMutation({
+                          id: spellbookData.id as string,
+                          spellId: spell.id
+                        });
+                      }}>
+                        Add Spell
+                      </button>
+                    )
+                  }
+                </li>
+              );
+            })
+          }
+        </p>
+      </Modal>
+    </>
   );
 };

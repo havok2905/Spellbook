@@ -18,9 +18,58 @@ export const getSpells = async () => {
   return response;
 };
 
-export interface CreateSpellbookArgs {
-  name: string;
-}
+export const addSpellbookSpell = async ({
+  id,
+  spellId
+}: {
+  id: string,
+  spellId: string
+}) => {
+  const response = fetch(
+    `http://localhost:4000/spellbooks/${id}/addSpell/${spellId}`,
+    {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    }
+  )
+    .then((response) => {
+      if(response.ok) {
+        return response.json();
+      }
+    })
+    .catch((err) => console.error(err));
+
+  return response;
+};
+
+export const removeSpellbookSpell = async ({
+  id,
+  spellId
+}: {
+  id: string,
+  spellId: string
+}) => {
+  const response = fetch(
+    `http://localhost:4000/spellbooks/${id}/removeSpell/${spellId}`,
+    {
+      method: "DELETE",
+      headers: {
+        accept: "application/json"
+      }
+    }
+  )
+    .then((response) => {
+      if(response.ok) {
+        return response.json();
+      }
+    })
+    .catch((err) => console.error(err));
+
+  return response;
+};
 
 export const createSpellbook = async ({
   name
