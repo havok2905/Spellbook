@@ -2,6 +2,7 @@
 
 import { CreateSpellbookForm } from '@/components/CreateSpellbookForm';
 import {
+  destroySpellbook,
   getSpellbooks,
   getSpells
 } from '../utils/api';
@@ -12,8 +13,8 @@ import {
   Spellbook
 } from '../types';
 import { SpellDisplay } from '@/components/SpellDisplay/SpellDisplay';
-import { useQuery } from '@tanstack/react-query';
-import { useState}  from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState }  from 'react';
 
 export default function Spellbooks() {
   const [activeSpell, setActiveSpell] = useState<string>('');
@@ -21,11 +22,13 @@ export default function Spellbooks() {
   const [isCreateSpellbookModalOpen, setIsCreateSpellbookModalOpen] = useState<boolean>(false);
   const [isViewSpellModalOpen, setIsViewSpellModalOpen] = useState<boolean>(false);
 
+  const queryClient = useQueryClient();
 
   const {
     data: spellbooksData,
     isError: spellbooksIsError,
-    isLoading: spellbooksIsLoading
+    isLoading: spellbooksIsLoading,
+    refetch: spellbooksRefresh
   } = useQuery({
     queryFn: async () => await getSpellbooks(),
     queryKey: ['spellbooks']
@@ -38,6 +41,21 @@ export default function Spellbooks() {
   } = useQuery({
     queryFn: async () => await getSpells(),
     queryKey: ['spells']
+  });
+
+  const {
+    mutate: destroySpellbookMutation
+  } = useMutation({
+    mutationFn: async (id: string) => {
+      return await destroySpellbook({ id });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['spellbooksData']
+      });
+
+      spellbooksRefresh();
+    },
   });
 
   if (
@@ -109,7 +127,11 @@ export default function Spellbooks() {
                         <Link href={`/spellbooks/${spellbook.id}`}>
                           View
                         </Link>
-                        <button>Destroy</button>
+                        <button onClick={() => {
+                          destroySpellbookMutation(spellbook.id);
+                        }}>
+                          Destroy
+                        </button>
                       </td>
                     </tr>
                   );
@@ -154,7 +176,9 @@ export default function Spellbooks() {
                         }}>
                           View
                         </button>
-                        <button>Destroy</button>
+                        <button>
+                          Destroy
+                        </button>
                       </td>
                     </tr>
                   );
@@ -198,7 +222,10 @@ export default function Spellbooks() {
         }}
         portalElement={document.body}
       >
-        <CreateSpellbookForm/>
+        <CreateSpellbookForm onSubmitSuccess={() => {
+          spellbooksRefresh();
+          setIsCreateSpellbookModalOpen(false);
+        }}/>
       </Modal>
     </>
   )
