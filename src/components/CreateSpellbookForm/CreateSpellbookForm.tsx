@@ -43,28 +43,33 @@ export const CreateSpellbookForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <fieldset>
-        <label>
-          Name
-        </label>
-        <input
-          {...register('name', { required: true })}
-          type="text"
-        />
-        {
-          errors.name ? (
-            <span>
-              This field is required
-            </span>
-          ) : null
-        }
-      </fieldset>
-      <fieldset>
-        <button type="submit">
-          Create
-        </button>
-      </fieldset>
-    </form>
+    <div>
+      <h2>
+        Create Spellbook
+      </h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset>
+          <label>
+            Name
+          </label>
+          <input
+            {...register('name', { required: true })}
+            type="text"
+          />
+          {
+            errors.name ? (
+              <span>
+                This field is required
+              </span>
+            ) : null
+          }
+        </fieldset>
+        <fieldset>
+          <button type="submit">
+            Create
+          </button>
+        </fieldset>
+      </form>
+    </div>
   );
 };

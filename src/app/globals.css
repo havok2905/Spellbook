@@ -95,7 +95,8 @@ label {
   margin-bottom: 8px;
 }
 
-input {
+input[type="text"],
+input[type="number"] {
   background-color: var(--black-2);
   border: 0;
   box-sizing: border-box;
