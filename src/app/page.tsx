@@ -1,7 +1,9 @@
 'use client';
 
+import { CreateSpellForm } from '@/components/CreateSellForm';
 import { CreateSpellbookForm } from '@/components/CreateSpellbookForm';
 import {
+  destroySpell,
   destroySpellbook,
   getSpellbooks,
   getSpells
@@ -37,10 +39,26 @@ export default function Spellbooks() {
   const {
     data: spellsData,
     isError: spellsIsError,
-    isLoading: spellsIsLoading
+    isLoading: spellsIsLoading,
+    refetch: spellsRefetch
   } = useQuery({
     queryFn: async () => await getSpells(),
     queryKey: ['spells']
+  });
+
+  const {
+    mutate: destroySpellMutation
+  } = useMutation({
+    mutationFn: async (id: string) => {
+      return await destroySpell({ id });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['spells']
+      });
+
+      spellsRefetch();
+    },
   });
 
   const {
@@ -51,7 +69,7 @@ export default function Spellbooks() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['spellbooksData']
+        queryKey: ['spellbooks']
       });
 
       spellbooksRefresh();
@@ -78,6 +96,10 @@ export default function Spellbooks() {
         Loading...
       </p>
     )
+  };
+
+  const handleOnDestoryClick = (spellId: string) => {
+    destroySpellMutation(spellId);
   };
 
   const handleOnViewClick = (spellId: string) => {
@@ -176,7 +198,9 @@ export default function Spellbooks() {
                         }}>
                           View
                         </button>
-                        <button>
+                        <button onClick={() => {
+                          handleOnDestoryClick(spell.id);
+                        }}>
                           Destroy
                         </button>
                       </td>
@@ -211,9 +235,10 @@ export default function Spellbooks() {
         }}
         portalElement={document.body}
       >
-        <p>
-          Create Spell
-        </p>
+        <CreateSpellForm onSubmitSuccess={() => {
+          spellsRefetch();
+          setIsCreateSpellModalOpen(false);
+        }}/>
       </Modal>
       <Modal
         isOpen={isCreateSpellbookModalOpen}

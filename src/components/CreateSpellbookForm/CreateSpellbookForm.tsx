@@ -31,7 +31,7 @@ export const CreateSpellbookForm = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['spellbooksData']
+        queryKey: ['spellbooks']
       });
 
       onSubmitSuccess();

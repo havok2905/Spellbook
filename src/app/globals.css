@@ -81,20 +81,27 @@ strong {
   font-weight: 700;
 }
 
+fieldset {
+  margin: 20px 0;
+}
+
 label {
   color: var(--white);
   display: block;
+  margin-bottom: 8px;
 }
 
 input {
   background-color: var(--black-2);
   border: 0;
+  box-sizing: border-box;
   box-shadow: inset 0 0 10px 0 var(--black);
   color: var(--white);
   display: block;
   height: 40px;
   outline: 0;
   padding: 0 10px;
+  width: 100%;
 }
 
 button {

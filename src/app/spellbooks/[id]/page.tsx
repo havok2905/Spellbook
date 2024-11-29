@@ -1,5 +1,6 @@
 'use client';
 
+import { CreateSpellForm } from '@/components/CreateSellForm';
 import {
   getSpells,
   getSpellbook,
@@ -19,6 +20,7 @@ export default function Spellbook() {
   const { id } = useParams();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [active, setActive] = useState<string>('');
+  const [isCreateSpellModalOpen, setIsCreateSpellModalOpen] = useState<boolean>(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
   const spellbookId = id as string;
@@ -37,7 +39,8 @@ export default function Spellbook() {
   const {
     data: spellsData,
     isError: spellsIsError,
-    isLoading: spellsIsLoading
+    isLoading: spellsIsLoading,
+    refetch: spellsRefetch
   } = useQuery({
     queryFn: async () => await getSpells(),
     queryKey: ['spells']
@@ -48,7 +51,7 @@ export default function Spellbook() {
     data: spellbookSpellsData,
     isError: spellbookSpellsIsError,
     isLoading: spellbookSpellsIsLoading,
-    refetch: spellboolSpellsRefetch
+    refetch: spellbookSpellsRefetch
   } = useQuery({
     queryFn: async () => await getSpellbookSpells(spellbookId),
     queryKey: ['spellbook']
@@ -65,7 +68,7 @@ export default function Spellbook() {
         queryKey: ['spellbookSpells']
       });
 
-      spellboolSpellsRefetch();
+      spellbookSpellsRefetch();
     },
   });
 
@@ -80,7 +83,7 @@ export default function Spellbook() {
         queryKey: ['spellbookSpells']
       });
 
-      spellboolSpellsRefetch();
+      spellbookSpellsRefetch();
     },
   });
 
@@ -155,7 +158,9 @@ export default function Spellbook() {
             }}>
               Manage Spells
             </button>
-            <button>
+            <button onClick={() => {
+              setIsCreateSpellModalOpen(true);
+            }}>
               Create & Add Spell
             </button>
           </div>
@@ -211,6 +216,22 @@ export default function Spellbook() {
           spell={spellbookSpellsData.find((s: Spell) => s.name === active)}
         />
       </div>
+      <Modal
+        isOpen={isCreateSpellModalOpen}
+        onClose={() => {
+          setIsCreateSpellModalOpen(false);
+        }}
+        portalElement={document.body}
+      >
+        <CreateSpellForm onSubmitSuccess={(spellId: string) => {
+          spellsRefetch();
+          setIsCreateSpellModalOpen(false);
+          addSpellbookSpellMutation({
+            id: spellbookData.id,
+            spellId
+          })
+        }}/>
+      </Modal>
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => {
