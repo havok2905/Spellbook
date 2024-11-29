@@ -81,6 +81,10 @@ strong {
   font-weight: 700;
 }
 
+a {
+  color: var(--neon-evocation);
+}
+
 fieldset {
   margin: 20px 0;
 }
@@ -104,6 +108,7 @@ input {
   width: 100%;
 }
 
+.button,
 button {
   background-color: transparent;
   border: 1px solid var(--neon-evocation);
@@ -111,12 +116,18 @@ button {
   box-shadow: 0 0 10px 0 var(--neon-evocation);
   color: var(--neon-evocation);
   cursor: pointer;
+  display: inline-block;
   height: 40px;
+  font-family: var(--font-goudy);
+  font-size: 14px;
+  line-height: 40px;
   margin-right: 20px;
   padding: 0 20px;
   transition: 0.3s;
+  text-decoration: none;
 }
 
+.button:hover,
 button:hover {
   box-shadow: 0 0 20px 0 var(--neon-evocation);
 }
@@ -130,6 +141,10 @@ table {
 th {
   font-weight: 700;
   text-align: left;
+}
+
+td {
+  padding: 8px 0;
 }
 
 .container {

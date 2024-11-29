@@ -15,6 +15,7 @@ import { SpellDrawer } from '../../../components/SpellDrawer';
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Spellbook() {
   const { id } = useParams();
@@ -159,6 +160,13 @@ export default function Spellbook() {
         <div style={{
           width: '940px'
         }}>
+          <div style={{
+            marginTop: '8px'
+          }}>
+            <Link href="/">
+              Home
+            </Link>
+          </div>
           <h1>
             Spellbook - {spellbookData.name}
           </h1>
@@ -251,40 +259,54 @@ export default function Spellbook() {
         }}
         portalElement={document.body}
       >
-        <p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Source</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
           {
             spellsData.map((spell: Spell) => {
               return (
-                <li key={spell.id}>
-                  {spell.name}
-                  {
-                    spellbookSpellsData.find((spellbookSpell: Spell) => {
-                      return spellbookSpell.id === spell.id;
-                    }) ? (
-                      <button onClick={() => {
-                        removeSpellbookSpellMutation({
-                          id: spellbookData.id,
-                          spellId: spell.id
-                        })
-                      }}>
-                        Remove Spell
-                      </button>
-                    ) : (
-                      <button onClick={() => {
-                        addSpellbookSpellMutation({
-                          id: spellbookData.id as string,
-                          spellId: spell.id
-                        });
-                      }}>
-                        Add Spell
-                      </button>
-                    )
-                  }
-                </li>
+                <tr key={spell.id}>
+                  <td>
+                    {spell.name}
+                  </td>
+                  <td>
+                    {spell.system}
+                  </td>
+                  <td>
+                    {
+                      spellbookSpellsData.find((spellbookSpell: Spell) => {
+                        return spellbookSpell.id === spell.id;
+                      }) ? (
+                        <button onClick={() => {
+                          removeSpellbookSpellMutation({
+                            id: spellbookData.id,
+                            spellId: spell.id
+                          })
+                        }}>
+                          Remove Spell
+                        </button>
+                      ) : (
+                        <button onClick={() => {
+                          addSpellbookSpellMutation({
+                            id: spellbookData.id as string,
+                            spellId: spell.id
+                          });
+                        }}>
+                          Add Spell
+                        </button>
+                      )
+                    }
+                  </td>
+                </tr>
               );
             })
           }
-        </p>
+        </table>
       </Modal>
     </>
   );

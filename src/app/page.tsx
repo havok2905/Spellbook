@@ -152,7 +152,9 @@ export default function Spellbooks() {
                         {spellbook.name}
                       </td>
                       <td>
-                        <Link href={`/spellbooks/${spellbook.id}`}>
+                        <Link
+                          className="button"
+                          href={`/spellbooks/${spellbook.id}`}>
                           View
                         </Link>
                         <button onClick={() => {
@@ -196,7 +198,7 @@ export default function Spellbooks() {
                   return (
                     <tr key={spell.id}>
                       <td>
-                        {spell.name}
+                        {spell.name} ({spell.system})
                       </td>
                       <td>
                         <button onClick={() => {
