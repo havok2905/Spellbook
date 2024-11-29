@@ -209,17 +209,17 @@ export default function Spellbook() {
                     {
                       partition.map((spell) => {
                         const onClick = () => {
-                          if (active === spell.name) {
+                          if (active === spell.id) {
                             setActive('');
                           } else {
-                            setActive(spell.name);
+                            setActive(spell.id);
                           }
                         };
             
                         return (
                           <SpellCard
-                            active={spell.name === active}
-                            key={spell.name}
+                            active={spell.id === active}
+                            key={spell.id}
                             onClick={onClick}
                             spell={spell}
                           />
@@ -233,7 +233,7 @@ export default function Spellbook() {
           }
         </div>
         <SpellDrawer
-          spell={spellbookSpellsData.find((s: Spell) => s.name === active)}
+          spell={spellbookSpellsData.find((s: Spell) => s.id === active)}
         />
       </div>
       <Modal
@@ -284,6 +284,10 @@ export default function Spellbook() {
                           return spellbookSpell.id === spell.id;
                         }) ? (
                           <button onClick={() => {
+                            if (active === spell.id) {
+                              setActive('');
+                            }
+
                             removeSpellbookSpellMutation({
                               id: spellbookData.id,
                               spellId: spell.id
