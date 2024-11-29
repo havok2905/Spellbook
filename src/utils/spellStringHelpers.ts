@@ -5,8 +5,8 @@ import {
 } from '../types';
 
 export const getCastingTime = (castingTime: CastingTime): string => {
-  if (typeof castingTime === 'string') {
-    return castingTime;
+  if (castingTime.actionType === 'instantaneous') {
+    return castingTime.actionType;
   }
 
   return `${castingTime.total} ${castingTime.actionType}`;
@@ -17,8 +17,8 @@ export const getCastingTimes = (castingTimes: CastingTime[]): string => {
 };
 
 export const getDuration = (duration: Duration): string => {
-  if (typeof duration === 'string') {
-    return duration;
+  if (duration.actionType === 'instantaneous') {
+    return duration.actionType;
   }
 
   return `${duration.total} ${duration.actionType}`;
