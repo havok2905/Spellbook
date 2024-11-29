@@ -116,6 +116,18 @@ export default function Spellbook() {
     return spell.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
   });
 
+  filteredSpells.sort((a: Spell, b: Spell) => {
+    if (a.name > b.name) return 1;
+    if (a.name < b.name) return -1;
+    return 0;
+  });
+
+  spellsData.sort((a: Spell, b: Spell) => {
+    if (a.name > b.name) return 1;
+    if (a.name < b.name) return -1;
+    return 0;
+  });
+
   const spellPartition: Spell[][] = [
     [], // Cantrip
     [], // 1st

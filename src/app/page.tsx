@@ -107,6 +107,12 @@ export default function Spellbooks() {
     setActiveSpell(spellId);
   };
 
+  spellsData.sort((a: Spell, b: Spell) => {
+    if (a.name > b.name) return 1;
+    if (a.name < b.name) return -1;
+    return 0;
+  });
+
   return (
     <>
       <div className="container">
