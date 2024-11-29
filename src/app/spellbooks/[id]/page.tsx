@@ -267,45 +267,47 @@ export default function Spellbook() {
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          {
-            spellsData.map((spell: Spell) => {
-              return (
-                <tr key={spell.id}>
-                  <td>
-                    {spell.name}
-                  </td>
-                  <td>
-                    {spell.system}
-                  </td>
-                  <td>
-                    {
-                      spellbookSpellsData.find((spellbookSpell: Spell) => {
-                        return spellbookSpell.id === spell.id;
-                      }) ? (
-                        <button onClick={() => {
-                          removeSpellbookSpellMutation({
-                            id: spellbookData.id,
-                            spellId: spell.id
-                          })
-                        }}>
-                          Remove Spell
-                        </button>
-                      ) : (
-                        <button onClick={() => {
-                          addSpellbookSpellMutation({
-                            id: spellbookData.id as string,
-                            spellId: spell.id
-                          });
-                        }}>
-                          Add Spell
-                        </button>
-                      )
-                    }
-                  </td>
-                </tr>
-              );
-            })
-          }
+          <tbody>
+            {
+              spellsData.map((spell: Spell) => {
+                return (
+                  <tr key={spell.id}>
+                    <td>
+                      {spell.name}
+                    </td>
+                    <td>
+                      {spell.system}
+                    </td>
+                    <td>
+                      {
+                        spellbookSpellsData.find((spellbookSpell: Spell) => {
+                          return spellbookSpell.id === spell.id;
+                        }) ? (
+                          <button onClick={() => {
+                            removeSpellbookSpellMutation({
+                              id: spellbookData.id,
+                              spellId: spell.id
+                            })
+                          }}>
+                            Remove Spell
+                          </button>
+                        ) : (
+                          <button onClick={() => {
+                            addSpellbookSpellMutation({
+                              id: spellbookData.id as string,
+                              spellId: spell.id
+                            });
+                          }}>
+                            Add Spell
+                          </button>
+                        )
+                      }
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
         </table>
       </Modal>
     </>
