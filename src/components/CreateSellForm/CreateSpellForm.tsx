@@ -1,5 +1,6 @@
 import {
   CastingTime,
+  CreatureStatBlock,
   DescriptionEntity,
   Duration,
   MagicSchool,
@@ -7,13 +8,15 @@ import {
   System
 } from '@/types';
 import {
+  Control,
   Controller,
   SubmitHandler,
   useFieldArray,
-  useForm
+  useForm,
+  UseFormRegister
 } from "react-hook-form";
 import { createSpell } from '@/utils/api';
-import { DescriptionField } from '../EntityDescriptionField/EntityDescriptionField';
+import { DescriptionField } from '../EntityDescriptionField';
 import {
   useMutation,
   useQueryClient
@@ -23,6 +26,7 @@ type Inputs = {
   castingTime: CastingTime[];
   components: SpellComponent[];
   concentration: boolean;
+  creatures: CreatureStatBlock[];
   description: DescriptionEntity[];
   descriptionHigherLevel: DescriptionEntity[];
   duration: Duration[];
@@ -34,6 +38,113 @@ type Inputs = {
   ritual: boolean;
   source: string;
   system: System;
+};
+
+const CreatureDescriptionField = ({
+  control,
+  parentIndex,
+  entityIndex,
+  setValue,
+  type
+}: {
+  control: Control<Inputs>;
+  parentIndex: number;
+  entityIndex: number;
+  setValue: any;
+  type: 'features' | 'actions'
+}) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `creatures.${parentIndex}.${type}.${entityIndex}.description`
+  });
+
+  return (
+    <div>
+      <button type="button" onClick={() => {
+        append({
+          type: 'description-ordered-list-entity',
+          items: []
+        })
+      }}>
+        Add Description
+      </button>
+      {
+        fields.map((field, index) => {
+          return (
+            <div key={field.id}>
+              <DescriptionField
+                fieldString={`creatures.${parentIndex}.${type}.${entityIndex}.description.${index}`}
+                setValue={setValue}
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  remove(index);
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          );
+        })
+      }
+    </div>
+  );
+};
+
+const CreatureEntityField = ({
+  control,
+  register,
+  parentIndex,
+  setValue,
+  type
+}: {
+  control: Control<Inputs>;
+  register: UseFormRegister<Inputs>;
+  parentIndex: number;
+  setValue: any;
+  type: 'features' | 'actions'
+}) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `creatures.${parentIndex}.${type}`
+  });
+
+  return (
+    <fieldset>
+      <button
+        type="button"
+        onClick={() =>
+          append({
+            id: '',
+            spellCreatureId: '',
+            name: '',
+            description: [] as DescriptionEntity[]
+          })
+        }
+      >
+        Add Feature
+      </button>
+      {fields.map((field, index) => (
+        <div key={field.id}>
+          <fieldset>
+            <label>Name</label>
+            <input type="text" {...register(`creatures.${parentIndex}.${type}.${index}.name`)} />
+          </fieldset>
+          <CreatureDescriptionField
+            control={control}
+            parentIndex={parentIndex}
+            entityIndex={index}
+            setValue={setValue}
+            type={type}
+          />
+          <button type="button" onClick={() => remove(index)}>
+            Remove
+          </button>
+        </div>
+      ))}
+    </fieldset>
+  );
 };
 
 export interface CreateSpellFormProps {
@@ -52,6 +163,15 @@ export const CreateSpellForm = ({
       errors
     }
   } = useForm<Inputs>();
+
+  const {
+    fields: creatureFields,
+    append: creatureAppend,
+    remove: creatureRemove
+  } = useFieldArray({
+    control,
+    name: "creatures"
+  });
 
   const {
     fields: castingTimeFields,
@@ -211,6 +331,7 @@ export const CreateSpellForm = ({
                 <option value="magic action">Magic Action</option>
                 <option value="minute">Minute</option>
                 <option value="reaction">Reaction</option>
+                <option value="round">Round</option>
               </select>
               <label>
                 Total
@@ -352,9 +473,209 @@ export const CreateSpellForm = ({
         </fieldset>
         <fieldset>
           <h3>Creatures</h3>
-          <button type="button">
+          <button onClick={() => {
+            creatureAppend({
+              id: '',
+              ac: '',
+              actions: [],
+              alignment: 'chaotic good',
+              cha: 10,
+              con: 10,
+              conditionImmunities: '',
+              cr: '0',
+              damageImmunities: '',
+              damageResistances: '',
+              damageVulnerabilities: '',
+              dex: 10,
+              features: [],
+              hp: '',
+              int: 10,
+              languages: '',
+              name: '',
+              proficiencyBonus: '',
+              senses: '',
+              size: 'medium',
+              speed: '',
+              str: 10,
+              type: '',
+              wis: 10
+            });
+          }} type="button">
             Add Creature
           </button>
+          {
+            creatureFields.map((field, index) => {
+              return (
+                <div key={field.id}>
+                  <div>
+                    <fieldset>
+                      <label>Name</label>
+                      <input type="text" {...register(`creatures.${index}.name`, { required: true })}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Alignment</label>
+                      <select {...register(`creatures.${index}.alignment`, { required: true })}>
+                        <option value="chaotic evil">Chaotic Evil</option>
+                        <option value="chaotic good">Chaotic Good</option>
+                        <option value="chaotic neutral">Chaotic Neutral</option>
+                        <option value="lawful evil">Lawful Evil</option>
+                        <option value="lawful good">Lawful Good</option>
+                        <option value="lawful neutral">Lawful Neutral</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="neutral evil">Neutral Evil</option>
+                        <option value="neutral good">Neutral Good</option>
+                        <option value="unaligned">Unaligned</option>
+                      </select>
+                    </fieldset>
+                    <fieldset>
+                      <label>Challenge Rating</label>
+                      <select {...register(`creatures.${index}.cr`, { required: true })}>
+                        <option value="0">0</option>
+                        <option value="1/8">1/8</option>
+                        <option value="1/4">1/4</option>
+                        <option value="1/2">1/2</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                      </select>
+                    </fieldset>
+                    <fieldset>
+                      <label>Type</label>
+                      <input type="text" {...register(`creatures.${index}.type`, { required: true })}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Size</label>
+                      <select {...register(`creatures.${index}.size`, { required: true })}>
+                        <option value="tiny">Tiny</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="huge">Huge</option>
+                        <option value="gargantuan">Gargantuan</option>
+                      </select>
+                    </fieldset>
+                    <fieldset>
+                      <label>Armor Class</label>
+                      <input type="text" {...register(`creatures.${index}.ac`, { required: true })}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Hit Points</label>
+                      <input type="text" {...register(`creatures.${index}.hp`, { required: true })}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Speed</label>
+                      <input type="text" {...register(`creatures.${index}.speed`, { required: true })}/>
+                    </fieldset>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th scope="col">STR</th>
+                          <th scope="col">DEX</th>
+                          <th scope="col">CON</th>
+                          <th scope="col">INT</th>
+                          <th scope="col">WIS</th>
+                          <th scope="col">CHA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><input type="number" {...register(`creatures.${index}.str`, { required: true, valueAsNumber: true })}/></td>
+                          <td><input type="number" {...register(`creatures.${index}.dex`, { required: true, valueAsNumber: true })}/></td>
+                          <td><input type="number" {...register(`creatures.${index}.con`, { required: true, valueAsNumber: true })}/></td>
+                          <td><input type="number" {...register(`creatures.${index}.int`, { required: true, valueAsNumber: true })}/></td>
+                          <td><input type="number" {...register(`creatures.${index}.wis`, { required: true, valueAsNumber: true })}/></td>
+                          <td><input type="number" {...register(`creatures.${index}.cha`, { required: true, valueAsNumber: true })}/></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <fieldset>
+                      <label>Proficiency Bonus</label>
+                      <input type="text" {...register(`creatures.${index}.proficiencyBonus`, { required: true })}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Condition Immunities</label>
+                      <input type="text" {...register(`creatures.${index}.conditionImmunities`)}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Damage Immunities</label>
+                      <input type="text" {...register(`creatures.${index}.damageImmunities`)}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Damage Resistances</label>
+                      <input type="text" {...register(`creatures.${index}.damageResistances`)}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Damage Vulnerabilities</label>
+                      <input type="text" {...register(`creatures.${index}.damageVulnerabilities`)}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Senses</label>
+                      <input type="text" {...register(`creatures.${index}.senses`, { required: true })}/>
+                    </fieldset>
+                    <fieldset>
+                      <label>Languages</label>
+                      <input type="text" {...register(`creatures.${index}.languages`, { required: true })}/>
+                    </fieldset>
+                    <fieldset>
+                      <h3>Features</h3>
+                      <CreatureEntityField
+                        control={control}
+                        parentIndex={index}
+                        register={register}
+                        setValue={setValue}
+                        type="features"
+                      />
+                    </fieldset>
+                    <fieldset>
+                      <h3>Actions</h3>
+                      <CreatureEntityField
+                        control={control}
+                        parentIndex={index}
+                        register={register}
+                        setValue={setValue}
+                        type="actions"
+                      />
+                    </fieldset>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      creatureRemove(index);
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              )
+            })
+          }
         </fieldset>
         <fieldset>
           <label>

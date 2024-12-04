@@ -5,7 +5,8 @@ export type ActionType =
   'instantaneous' |
   'magic action' |
   'minute' |
-  'reaction';
+  'reaction' |
+  'round';
 
 export interface ComplexCastingTime {
   actionType: ActionType;

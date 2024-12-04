@@ -1,4 +1,4 @@
-import {CastingTime, DescriptionEntity, Duration, MagicSchool, System} from '@/types';
+import {CastingTime, CreatureStatBlock, DescriptionEntity, Duration, MagicSchool, System} from '@/types';
 
 export const getSpells = async () => {
   const response = fetch(
@@ -77,6 +77,7 @@ export const createSpell = async ({
   castingTime,
   components,
   concentration,
+  creatures,
   description,
   descriptionHigherLevel,
   duration,
@@ -92,6 +93,7 @@ export const createSpell = async ({
   castingTime: CastingTime[],
   components: string,
   concentration: boolean,
+  creatures: CreatureStatBlock[],
   description: DescriptionEntity[],
   descriptionHigherLevel: DescriptionEntity[],
   duration: Duration[],
@@ -108,6 +110,7 @@ export const createSpell = async ({
     castingTimes: castingTime,
     components,
     concentration,
+    creatures,
     description,
     descriptionHigherLevel,
     durationTimes: duration,
