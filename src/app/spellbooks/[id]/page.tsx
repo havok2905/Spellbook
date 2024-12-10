@@ -16,6 +16,7 @@ import { useParams } from 'next/navigation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import Link from 'next/link';
+import {SpellTable} from '@/components/SpellTable';
 
 export default function Spellbook() {
   const { id } = useParams();
@@ -259,60 +260,26 @@ export default function Spellbook() {
         }}
         portalElement={document.body}
       >
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Source</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              spellsData.map((spell: Spell) => {
-                return (
-                  <tr key={spell.id}>
-                    <td>
-                      {spell.name}
-                    </td>
-                    <td>
-                      {spell.system}
-                    </td>
-                    <td>
-                      {
-                        spellbookSpellsData.find((spellbookSpell: Spell) => {
-                          return spellbookSpell.id === spell.id;
-                        }) ? (
-                          <button onClick={() => {
-                            if (active === spell.id) {
-                              setActive('');
-                            }
-
-                            removeSpellbookSpellMutation({
-                              id: spellbookData.id,
-                              spellId: spell.id
-                            })
-                          }}>
-                            Remove Spell
-                          </button>
-                        ) : (
-                          <button onClick={() => {
-                            addSpellbookSpellMutation({
-                              id: spellbookData.id as string,
-                              spellId: spell.id
-                            });
-                          }}>
-                            Add Spell
-                          </button>
-                        )
-                      }
-                    </td>
-                  </tr>
-                );
-              })
+        <SpellTable
+          onAdd={(spellId: string) => {
+            addSpellbookSpellMutation({
+              id: spellbookData.id as string,
+              spellId
+            })
+          }}
+          onRemove={(spellId: string) => {
+            if (active === spellId) {
+              setActive('');
             }
-          </tbody>
-        </table>
+
+            removeSpellbookSpellMutation({
+              id: spellbookData.id,
+              spellId: spellId
+            })
+          }}
+          spells={spellsData}
+          spellbookSpellsData={spellbookSpellsData}
+        />
       </Modal>
     </>
   );

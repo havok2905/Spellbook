@@ -15,6 +15,8 @@ import {
   Spellbook
 } from '../types';
 import { SpellDisplay } from '@/components/SpellDisplay/SpellDisplay';
+import { SpellTable } from '@/components/SpellTable';
+import { TrashIcon } from '@/components/Icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState }  from 'react';
 
@@ -107,12 +109,6 @@ export default function Spellbooks() {
     setActiveSpell(spellId);
   };
 
-  spellsData.sort((a: Spell, b: Spell) => {
-    if (a.name > b.name) return 1;
-    if (a.name < b.name) return -1;
-    return 0;
-  });
-
   return (
     <>
       <div className="container">
@@ -149,18 +145,17 @@ export default function Spellbooks() {
                   return (
                     <tr key={spellbook.id}>
                       <td>
-                        {spellbook.name}
+                        <Link href={`/spellbooks/${spellbook.id}`}>
+                          {spellbook.name}
+                        </Link>
                       </td>
                       <td>
-                        <Link
-                          className="button"
-                          href={`/spellbooks/${spellbook.id}`}>
-                          View
-                        </Link>
-                        <button onClick={() => {
+                        <button
+                          className="icon-button"
+                          onClick={() => {
                           destroySpellbookMutation(spellbook.id);
                         }}>
-                          Destroy
+                          <TrashIcon/>
                         </button>
                       </td>
                     </tr>
@@ -181,43 +176,11 @@ export default function Spellbooks() {
               Create Spell
             </button>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  Spell
-                </th>
-                <th>
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                spellsData.map((spell: Spell) => {
-                  return (
-                    <tr key={spell.id}>
-                      <td>
-                        {spell.name} ({spell.system})
-                      </td>
-                      <td>
-                        <button onClick={() => {
-                          handleOnViewClick(spell.id);
-                        }}>
-                          View
-                        </button>
-                        <button onClick={() => {
-                          handleOnDestoryClick(spell.id);
-                        }}>
-                          Destroy
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              }
-            </tbody>
-          </table>
+          <SpellTable
+            onDestroy={handleOnDestoryClick}
+            onView={handleOnViewClick}
+            spells={spellsData}
+          />
         </div>
       </div>
       <Modal

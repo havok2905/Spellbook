@@ -326,12 +326,14 @@ export const CreateSpellForm = ({
               <select {...register(`duration.${index}.actionType`, { required: true })}>
                 <option value="action">Action</option>
                 <option value="bonus action">Bonus Action</option>
+                <option value="day">Day</option>
                 <option value="hour">Hour</option>
                 <option value="instantaneous">Instantaneous</option>
                 <option value="magic action">Magic Action</option>
                 <option value="minute">Minute</option>
                 <option value="reaction">Reaction</option>
                 <option value="round">Round</option>
+                <option value="special">Special</option>
               </select>
               <label>
                 Total
@@ -367,11 +369,14 @@ export const CreateSpellForm = ({
               <select {...register(`castingTime.${index}.actionType`, { required: true })}>
                 <option value="action">Action</option>
                 <option value="bonus action">Bonus Action</option>
+                <option value="day">Day</option>
                 <option value="hour">Hour</option>
                 <option value="instantaneous">Instantaneous</option>
                 <option value="magic action">Magic Action</option>
                 <option value="minute">Minute</option>
                 <option value="reaction">Reaction</option>
+                <option value="round">Round</option>
+                <option value="special">Special</option>
               </select>
               <label>
                 Total

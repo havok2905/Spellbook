@@ -1,12 +1,14 @@
 export type ActionType =
   'action' |
   'bonus action' |
+  'day' |
   'hour' |
   'instantaneous' |
   'magic action' |
   'minute' |
   'reaction' |
-  'round';
+  'round' |
+  'special';
 
 export interface ComplexCastingTime {
   actionType: ActionType;

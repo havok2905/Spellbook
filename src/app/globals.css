@@ -163,3 +163,15 @@ td {
   row-gap: 20px;
   width: 940px;
 }
+
+.icon-button {
+  border: none;
+  box-shadow: none;
+  height: auto;
+  line-height: normal;
+  padding: 0;
+}
+
+.icon-button:hover {
+  box-shadow: none;
+}
