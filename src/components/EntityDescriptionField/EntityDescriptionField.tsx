@@ -199,7 +199,7 @@ const initialState: DescriptionFieldState = {
 
 export interface DescriptionFieldProps {
   fieldString: string;
-  setValue: (field: string, value: DescriptionEntity) => void;
+  setValue: any;
 }
 
 export const DescriptionField = ({

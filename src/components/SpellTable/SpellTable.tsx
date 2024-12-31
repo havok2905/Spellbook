@@ -279,7 +279,7 @@ export const SpellTable = ({
                       onView ? (
                         <a href="#" onClick={(e) => {
                           e.preventDefault();
-                          onView(spell.id);
+                          onView(spell.id!);
                         }}>
                           {spell.name} ({spell.system})
                         </a>
@@ -305,7 +305,7 @@ export const SpellTable = ({
                               <button
                                 className="icon-button"
                                 onClick={() => {
-                                  onDestroy(spell.id);
+                                  onDestroy(spell.id!);
                                 }}
                               >
                                 <TrashIcon/>
@@ -321,13 +321,13 @@ export const SpellTable = ({
                                   return spellbookSpell.id === spell.id;
                                 }) ? (
                                   <button onClick={() => {
-                                    onRemove(spell.id);
+                                    onRemove(spell.id!);
                                   }}>
                                     Remove Spell
                                   </button>
                                 ) : (
                                   <button onClick={() => {
-                                    onAdd(spell.id);
+                                    onAdd(spell.id!);
                                   }}>
                                     Add Spell
                                   </button>

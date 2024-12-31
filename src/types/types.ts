@@ -158,7 +158,7 @@ export interface CreatureStatBlock {
 }
 
 export interface Spell {
-  id: string;
+  id?: string;
   castingTimes: CastingTime[];
   components: SpellComponent[];
   concentration: boolean;

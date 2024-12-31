@@ -213,7 +213,7 @@ export default function Spellbook() {
                           if (active === spell.id) {
                             setActive('');
                           } else {
-                            setActive(spell.id);
+                            setActive(spell.id!);
                           }
                         };
             

@@ -1,4 +1,4 @@
-import { CreatureStatBlock } from '../types';
+import { CreatureStatBlock } from '../../types';
 import { EntityDescription } from '../EntityDescription';
 
 export interface StatBlockProps {
